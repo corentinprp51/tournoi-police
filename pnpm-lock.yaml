@@ -6,6 +6,7 @@ specifiers:
   '@vitejs/plugin-vue': ^4.1.0
   '@vue/eslint-config-typescript': ^11.0.3
   autoprefixer: ^10.4.14
+  date-fns: ^2.30.0
   eslint: ^8.42.0
   eslint-config-prettier: ^8.8.0
   eslint-plugin-import: ^2.27.5
@@ -22,13 +23,16 @@ specifiers:
   vue: ^3.2.47
   vue-router: ^4.2.2
   vue-tsc: ^1.4.2
+  vuefire: ^3.1.0
   workbox-window: ^7.0.0
 
 dependencies:
+  date-fns: 2.30.0
   firebase: 9.22.1
   pinia: 2.1.3_typescript@5.1.3+vue@3.3.4
   vue: 3.3.4
   vue-router: 4.2.2_vue@3.3.4
+  vuefire: 3.1.0_firebase@9.22.1+vue@3.3.4
 
 devDependencies:
   '@typescript-eslint/eslint-plugin': 5.59.8_ef079699ee51b4d16df89e1c32e4e2cf
@@ -1248,7 +1252,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
-    dev: true
 
   /@babel/template/7.21.9:
     resolution: {integrity: sha512-MK0X5k8NKOuWRamiEfc3KEJiHMTkGZNUjzMipqCGDDc6ijRl/B7RGSKVGncu4Ro/HdyzzY6cmoXuKI2Gffk7vQ==}
@@ -2881,6 +2884,13 @@ packages:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
     dev: false
 
+  /date-fns/2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
+    engines: {node: '>=0.11'}
+    dependencies:
+      '@babel/runtime': 7.22.3
+    dev: false
+
   /de-indent/1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
     dev: true
@@ -4383,7 +4393,6 @@ packages:
 
   /regenerator-runtime/0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
-    dev: true
 
   /regenerator-transform/0.15.1:
     resolution: {integrity: sha512-knzmNAcuyxV+gQCufkYcvOqX/qIIfHLv0u5x79kRxuGojfYVky1f15TzZEu2Avte8QGepvUNTnLskf8E6X6Vyg==}
@@ -5030,6 +5039,23 @@ packages:
       '@vue/runtime-dom': 3.3.4
       '@vue/server-renderer': 3.3.4_vue@3.3.4
       '@vue/shared': 3.3.4
+    dev: false
+
+  /vuefire/3.1.0_firebase@9.22.1+vue@3.3.4:
+    resolution: {integrity: sha512-iLY6GARr5la75tfxBZUm2zfbL6kQ11FWBUHClyfM602xgWskkBAIareGs3R4K2DC4QSWXslrYnteCyLlqouD8w==}
+    peerDependencies:
+      '@vue/composition-api': '*'
+      firebase: ^9.0.0
+      vue: ^2.7.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      firebase:
+        optional: true
+    dependencies:
+      firebase: 9.22.1
+      vue: 3.3.4
+      vue-demi: 0.14.5_vue@3.3.4
     dev: false
 
   /webidl-conversions/3.0.1:

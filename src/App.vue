@@ -5,6 +5,7 @@ import Header from '@/components/Layouts/Header.vue'
 import ToastHandler from '@/components/Toasts/toast-handler.vue'
 import { useUtilsStore } from '@/store/utilsStore'
 import Loader from '@/components/Loader/Loader.vue'
+import NavBar from '@/components/Layouts/NavBar.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,7 +14,13 @@ const utilsStore = useUtilsStore()
 const isOnAuthRoute = computed(
   () => route.name === 'login' || route.name === 'register'
 )
-// const isLoadingApp = computed(() => utilsStore.isLoading)
+const routesWithoutPadding = computed(
+  () =>
+    route.name === 'home' ||
+    route.name === 'classement' ||
+    route.name === 'match-details' ||
+    route.name === 'classement-statistiques'
+)
 onMounted(async () => {
   await router.isReady()
   isAppMounted.value = true
@@ -29,8 +36,12 @@ onMounted(async () => {
     </div>
     <toast-handler />
     <Header v-if="isAppMounted && !isOnAuthRoute" />
-    <div class="px-[15px] flex flex-col">
+    <div
+      class="flex flex-col"
+      :class="!routesWithoutPadding && 'px-[15px]'"
+    >
       <router-view />
     </div>
+    <NavBar v-if="isAppMounted && !isOnAuthRoute" />
   </div>
 </template>

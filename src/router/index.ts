@@ -23,6 +23,54 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/matchs',
+    name: 'matchs',
+    component: () => import('@/views/matchs-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/match/:id',
+    name: 'match-details',
+    component: () => import('@/views/match-details-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/match/:id/stats/add',
+    name: 'match-stats-add',
+    component: () => import('@/views/add-match-stats-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/match/:id/stats/edit',
+    name: 'match-stats-edit',
+    component: () => import('@/views/edit-match-stats-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/classement/:groupId',
+    name: 'classement',
+    component: () => import('@/views/ranking-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/classement/statistiques',
+    name: 'classement-statistiques',
+    component: () => import('@/views/ranking-individual-stats-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login-view.vue')

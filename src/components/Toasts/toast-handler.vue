@@ -21,9 +21,7 @@ import ToastesService from '@/services/ToastesService'
 
 const toastsMessages = ToastesService.getInstance().components
 const closeToast = (index: number) => {
-  console.log('close', index)
   toastsMessages.value.splice(index, 1)
-  console.log(toastsMessages.value)
 }
 </script>
 

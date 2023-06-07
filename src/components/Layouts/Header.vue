@@ -24,11 +24,11 @@
 </template>
 
 <script setup lang="ts">
-import UserIcon from '@/Icons/UserIcon.vue'
+import UserIcon from '@/components/Icons/UserIcon.vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BackIcon from '@/Icons/BackIcon.vue'
-import LogoutIcon from '@/Icons/LogoutIcon.vue'
+import BackIcon from '@/components/Icons/BackIcon.vue'
+import LogoutIcon from '@/components/Icons/LogoutIcon.vue'
 import { useUserStore } from '@/store/userStore'
 
 const route = useRoute()

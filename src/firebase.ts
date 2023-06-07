@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { collection, getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
 import { getMessaging } from 'firebase/messaging'
@@ -22,3 +22,7 @@ export const db = getFirestore(app)
 export const auth = getAuth(app)
 export const storage = getStorage(app)
 export const messaging = getMessaging(app)
+
+// Collections
+export const usersRef = collection(db, 'users')
+export const statsRef = collection(db, 'stats')

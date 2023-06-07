@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import AlertIcon from '@/Icons/AlertIcon.vue'
+import AlertIcon from '@/components/Icons/AlertIcon.vue'
 </script>
 
 <style scoped></style>

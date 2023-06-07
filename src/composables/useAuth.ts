@@ -111,6 +111,7 @@ export const useAuth = () => {
         userStore.setUser(null)
         userStore.setNeedLogout(false)
         router.push('/login')
+        ToastesService.getInstance().success('Vous venez de vous déconnecter')
       })
       .finally(() => setLoaderApp(false))
   }
