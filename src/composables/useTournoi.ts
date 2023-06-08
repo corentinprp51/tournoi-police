@@ -10,6 +10,7 @@ import { User } from '@/types/Firestore/User'
 import { RankingTeam } from '@/types/Firestore/Ranking'
 
 export const useTournoi = () => {
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL
   const matchsFdP = ref<Array<Match>>([])
   const matchsGroupA = ref<Array<Match>>([])
   const matchsGroupB = ref<Array<Match>>([])
@@ -19,7 +20,7 @@ export const useTournoi = () => {
 
   const getMatchsFdp = async () => {
     setLoaderApp(true)
-    await fetch(`http://localhost:8080/`)
+    await fetch(BASE_URL)
       .then((res) => res.json())
       .then((res: Array<Match>) => {
         matchsFdP.value = res.filter(
@@ -32,7 +33,7 @@ export const useTournoi = () => {
 
   const getMatchsByGroup = async () => {
     setLoaderApp(true)
-    await fetch(`http://localhost:8080/`)
+    await fetch(BASE_URL)
       .then((res) => res.json())
       .then((res: Array<Match>) => {
         matchsGroupA.value = res.filter((el) => el.groupId === 0)
@@ -43,7 +44,7 @@ export const useTournoi = () => {
 
   const getMatch = async (id: string) => {
     setLoaderApp(true)
-    await fetch(`http://localhost:8080/match/${id}`)
+    await fetch(`${BASE_URL}/match/${id}`)
       .then((res) => res.json())
       .then((res: Match) => {
         match.value = res
@@ -188,7 +189,7 @@ export const useTournoi = () => {
   const getRanking = async (groupId: string) => {
     setLoaderApp(true)
     const res: Array<RankingTeam> = await fetch(
-      `http://localhost:8080/ranking/${groupId}`
+      `${BASE_URL}/ranking/${groupId}`
     ).then((res) => res.json())
     setLoaderApp(false)
     return res

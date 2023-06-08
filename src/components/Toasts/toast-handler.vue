@@ -10,7 +10,7 @@
       :key="index"
       :message="toastMessage.message"
       :style="`top: ${index * 50}px`"
-      class="overflow-hidden"
+      class="overflow-hidden w-[80%]"
       @close-toast="closeToast(index)"
     />
   </transition-group>
