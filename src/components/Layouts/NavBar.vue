@@ -25,6 +25,16 @@
             <span class="mt-[2px] text-[12px] font-light">Matchs</span>
           </router-link>
         </li>
+        <li>
+          <router-link
+            v-slot="{ isActive }"
+            :to="'/paris'"
+            class="flex flex-col items-center justify-center"
+          >
+            <BetIcon :active="isActive" />
+            <span class="mt-[2px] text-[12px] font-light">Paris</span>
+          </router-link>
+        </li>
       </ul>
     </nav>
   </div>
@@ -34,6 +44,7 @@
 import HomeIcon from '@/components/Icons/HomeIcon.vue'
 import MatchIcon from '@/components/Icons/MatchIcon.vue'
 import { useRoute } from 'vue-router'
+import BetIcon from '@/components/Icons/BetIcon.vue'
 
 const route = useRoute()
 </script>

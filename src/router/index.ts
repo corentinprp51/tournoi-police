@@ -71,6 +71,14 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/paris',
+    name: 'paris',
+    component: () => import('@/views/paris-list-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login-view.vue')
