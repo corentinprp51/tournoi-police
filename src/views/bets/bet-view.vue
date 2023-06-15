@@ -184,7 +184,7 @@ const rankingBets = computed((): Array<RankingVotes> => {
   return bet.value.type === BetTypes.YESORNOT
     ? finalArray.filter((el) => el.votes).sort()
     : finalArray
-        .filter((el) => el.votes > 0)
+        .filter((el) => (el.votes as number) > 0)
         .sort((a, b) => (b.votes as number) - (a.votes as number))
 })
 
@@ -221,7 +221,7 @@ const rankingFinalVotes = computed((): Array<RankingVotes> => {
   return bet.value.type === BetTypes.YESORNOT
     ? finalArray.filter((el) => el.votes).sort()
     : finalArray
-        .filter((el) => el.votes > 0)
+        .filter((el) => (el.votes as number) > 0)
         .sort((a, b) => (b.votes as number) - (a.votes as number))
 })
 

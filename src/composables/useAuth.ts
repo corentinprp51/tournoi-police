@@ -94,6 +94,8 @@ export const useAuth = () => {
                 email: registerForm.email,
                 username: registerForm.username,
                 created_at: serverTimestamp(),
+                isAdmin: false,
+                isPlayer: true,
                 updated_at: null
               }
               await setDoc(userRef, userData)
