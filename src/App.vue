@@ -19,7 +19,8 @@ const routesWithoutPadding = computed(
     route.name === 'home' ||
     route.name === 'classement' ||
     route.name === 'match-details' ||
-    route.name === 'classement-statistiques'
+    route.name === 'classement-statistiques' ||
+    route.name === 'pari-view'
 )
 onMounted(async () => {
   await router.isReady()
@@ -27,10 +28,10 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="flex flex-col h-[100dvh] bg-default text-white">
+  <div class="flex flex-col h-[100vh] bg-default text-white">
     <div
       v-if="utilsStore.isLoading"
-      class="absolute top-0 z-[100] h-[100dvh] bg-[rgba(0,0,0,0.7)] w-full flex items-center justify-center"
+      class="absolute top-0 z-[100] h-[100vh] bg-[rgba(0,0,0,0.7)] w-full flex items-center justify-center"
     >
       <Loader />
     </div>

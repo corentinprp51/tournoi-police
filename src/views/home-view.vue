@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[calc(100dvh-50px-120px)] overflow-y-scroll">
+  <div class="h-[calc(100vh-50px-120px)] overflow-y-scroll">
     <MatchsCard
       class="mt-[32px]"
       title="Matchs des FdP"

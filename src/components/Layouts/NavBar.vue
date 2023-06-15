@@ -14,24 +14,22 @@
         </li>
         <li>
           <router-link
-            v-slot="{ isActive }"
-            :to="'/matchs'"
+            :to="'/matchs/poules'"
             class="flex flex-col items-center justify-center"
           >
             <MatchIcon
-              :active="isActive"
-              :class="isActive && 'bg-white'"
+              :active="isMatchActive"
+              :class="isMatchActive && 'bg-white'"
             />
             <span class="mt-[2px] text-[12px] font-light">Matchs</span>
           </router-link>
         </li>
         <li>
           <router-link
-            v-slot="{ isActive }"
-            :to="'/paris'"
+            :to="'/paris/en-cours'"
             class="flex flex-col items-center justify-center"
           >
-            <BetIcon :active="isActive" />
+            <BetIcon :active="isBetActive" />
             <span class="mt-[2px] text-[12px] font-light">Paris</span>
           </router-link>
         </li>
@@ -45,8 +43,18 @@ import HomeIcon from '@/components/Icons/HomeIcon.vue'
 import MatchIcon from '@/components/Icons/MatchIcon.vue'
 import { useRoute } from 'vue-router'
 import BetIcon from '@/components/Icons/BetIcon.vue'
+import { computed } from 'vue'
 
 const route = useRoute()
+const isBetActive = computed(
+  () =>
+    route.name === 'paris-en-cours' ||
+    route.name === 'paris-termines' ||
+    route.name === 'paris-vote-final'
+)
+const isMatchActive = computed(
+  () => route.name === 'matchs-poules' || route.name === 'matchs-phase-finale'
+)
 </script>
 
 <style scoped></style>

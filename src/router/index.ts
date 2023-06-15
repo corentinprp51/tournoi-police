@@ -23,8 +23,16 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/matchs',
-    name: 'matchs',
+    path: '/matchs/poules',
+    name: 'matchs-poules',
+    component: () => import('@/views/matchs-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/matchs/phase-finale',
+    name: 'matchs-phase-finale',
     component: () => import('@/views/matchs-view.vue'),
     meta: {
       requiresAuth: true
@@ -71,9 +79,57 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/paris',
-    name: 'paris',
-    component: () => import('@/views/paris-list-view.vue'),
+    path: '/paris/en-cours',
+    name: 'paris-en-cours',
+    component: () => import('@/views/bets/bets-list-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/paris/vote-final',
+    name: 'paris-vote-final',
+    component: () => import('@/views/bets/bets-list-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/paris/termines',
+    name: 'paris-termines',
+    component: () => import('@/views/bets/bets-list-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/paris/nouveau',
+    name: 'paris-add',
+    component: () => import('@/views/bets/add-bet-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/paris/:betId',
+    name: 'pari-view',
+    component: () => import('@/views/bets/bet-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/paris/:betId/edit',
+    name: 'pari-edit',
+    component: () => import('@/views/bets/bet-edit-view.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/paris/:betId/change/:typeId',
+    name: 'pari-change',
+    component: () => import('@/views/bets/change-bet-view.vue'),
     meta: {
       requiresAuth: true
     }

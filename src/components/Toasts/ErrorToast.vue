@@ -1,7 +1,7 @@
 <template>
   <div
     id="toast-danger"
-    class="flex items-center left-1/2 -translate-x-1/2 absolute top-0 w-full z-50 p-4 text-gray-500 rounded-lg shadow text-white bg-gray-800"
+    class="flex items-center left-1/2 -translate-x-1/2 absolute top-0 z-50 p-4 text-gray-500 rounded-lg shadow text-white bg-gray-800"
     role="alert"
   >
     <div

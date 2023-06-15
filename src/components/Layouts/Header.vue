@@ -19,6 +19,14 @@
         v-if="isOnProfilePage"
         @click="handleLogoutUser"
       />
+      <EditIcon
+        v-if="isOnBetViewPage && isOwner(betStore.bet)"
+        @click="router.push({ name: 'pari-edit', params: { ...route.params } })"
+      />
+      <RemoveIcon
+        v-if="isOnBetEditPage"
+        @click="handleRemoveBet"
+      />
     </div>
   </div>
 </template>
@@ -30,15 +38,27 @@ import { useRoute, useRouter } from 'vue-router'
 import BackIcon from '@/components/Icons/BackIcon.vue'
 import LogoutIcon from '@/components/Icons/LogoutIcon.vue'
 import { useUserStore } from '@/store/userStore'
+import EditIcon from '@/components/Icons/EditIcon.vue'
+import { useBetStore } from '@/store/betStore'
+import { useBets } from '@/composables/useBets'
+import RemoveIcon from '@/components/Icons/RemoveIcon.vue'
 
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+const betStore = useBetStore()
+const { isOwner } = useBets()
 const isOnHomePage = computed(() => route.name === 'home')
 const isOnProfilePage = computed(() => route.name === 'profile')
+const isOnBetViewPage = computed(() => route.name === 'pari-view')
+const isOnBetEditPage = computed(() => route.name === 'pari-edit')
 const getUsername = computed(() => userStore.user?.username || '')
 const handleLogoutUser = () => {
   userStore.setNeedLogout(true)
+}
+
+const handleRemoveBet = () => {
+  betStore.setNeedRemove(true)
 }
 const backRoute = () => {
   router.back()

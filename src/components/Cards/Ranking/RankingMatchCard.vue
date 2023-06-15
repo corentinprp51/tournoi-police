@@ -7,7 +7,10 @@
     <div
       class="flex justify-end text-[12px] text-[#989898] font-light mr-[11px] mt-[10px]"
     >
-      <div class="w-[30%] flex justify-between">
+      <div
+        v-if="!isFinalePhase"
+        class="w-[30%] flex justify-between"
+      >
         <span>J</span>
         <span>Buts</span>
         <span>Pts</span>
@@ -20,7 +23,7 @@
           :key="index"
         >
           <div
-            v-if="index === 0 || index === 2 || index === 4"
+            v-if="!isFinalePhase && (index === 0 || index === 2 || index === 4)"
             class="text-[10px] text-[#989898] font-light pl-[10px] mt-[7px]"
           >
             <span v-if="index === 0">DEMI-FINALES</span>
@@ -32,35 +35,6 @@
             :index="index"
           />
         </div>
-        <!--        <span class="text-[10px] text-[#989898] font-light pl-[10px]">-->
-        <!--          DEMI-FINALES-->
-        <!--        </span>-->
-        <!--        <div-->
-        <!--          class="1 flex justify-between px-[10px] bg-[#161616] py-[11px] border-b border-[rgba(87,87,87,0.27)]"-->
-        <!--        >-->
-        <!--          <div class="flex gap-[7px] text-[14px]">-->
-        <!--            <span>1</span>-->
-        <!--            <span>-</span>-->
-        <!--            <span>Fils de Flic</span>-->
-        <!--          </div>-->
-        <!--          <div class="flex gap-[20px] text-[14px] min-w-[90px] justify-end">-->
-        <!--            <span class="font-light text-[#989898]">4</span>-->
-        <!--            <span class="font-light text-[#989898]">15:2</span>-->
-        <!--            <span>15</span>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--        <div class="1 flex justify-between px-[10px] bg-[#161616] py-[11px]">-->
-        <!--          <div class="flex gap-[7px] text-[14px]">-->
-        <!--            <span>2</span>-->
-        <!--            <span>-</span>-->
-        <!--            <span>Pompiers</span>-->
-        <!--          </div>-->
-        <!--          <div class="flex gap-[20px] text-[14px] min-w-[90px]">-->
-        <!--            <span class="font-light text-[#989898]">4</span>-->
-        <!--            <span class="font-light text-[#989898]">4:8</span>-->
-        <!--            <span>9</span>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </div>
     </div>
   </div>
@@ -74,6 +48,8 @@ import SimpleRankingLine from '@/components/Cards/Ranking/SimpleRankingLine.vue'
 type RankingCard = {
   title: string
   ranking: Array<RankingTeam>
+
+  isFinalePhase: boolean
 }
 
 defineProps<RankingCard>()

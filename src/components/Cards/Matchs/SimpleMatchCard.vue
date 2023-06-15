@@ -1,6 +1,15 @@
 <template>
   <div class="flex flex-col mt-[15px] h-full">
-    <div class="flex justify-between h-full items-center gap-[10px]">
+    <span
+      v-if="isFinalPhase"
+      class="text-[12px] italic font-light"
+    >
+      {{ match.matchLabel }}
+    </span>
+    <div
+      class="flex justify-between h-full items-center gap-[10px]"
+      :class="isFinalPhase && 'mt-[5px]'"
+    >
       <div class="flex flex-col gap-[8px] w-full text-[14px]">
         <div class="flex justify-between">
           <span>{{ match.homeName }}</span>
@@ -35,6 +44,7 @@ import { useTournoi } from '@/composables/useTournoi'
 type SimpleMatchType = {
   match: Match
   isLast: boolean
+  isFinalPhase: boolean
 }
 defineProps<SimpleMatchType>()
 const { matchIsEnded, matchIsPlaying } = useTournoi()

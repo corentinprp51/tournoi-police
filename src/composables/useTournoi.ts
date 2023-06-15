@@ -14,6 +14,7 @@ export const useTournoi = () => {
   const matchsFdP = ref<Array<Match>>([])
   const matchsGroupA = ref<Array<Match>>([])
   const matchsGroupB = ref<Array<Match>>([])
+  const finalMatchs = ref<Array<Match>>([])
   const match = ref<Match>({} as unknown as Match)
   const { setLoaderApp } = useUtilsStore()
   const userStore = useUserStore()
@@ -38,6 +39,7 @@ export const useTournoi = () => {
       .then((res: Array<Match>) => {
         matchsGroupA.value = res.filter((el) => el.groupId === 0)
         matchsGroupB.value = res.filter((el) => el.groupId === 1)
+        finalMatchs.value = res.filter((el) => el.finalMatch)
       })
       .finally(() => setLoaderApp(false))
   }
@@ -208,6 +210,7 @@ export const useTournoi = () => {
     getStats,
     getIndividualStats,
     getAllStats,
+    finalMatchs,
     getRanking
   }
 }

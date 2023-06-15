@@ -5,13 +5,16 @@ import {
   signInWithEmailAndPassword,
   signOut
 } from 'firebase/auth'
-import { auth, db } from '@/firebase'
+import { auth, db, usersRef } from '@/firebase'
 import {
   doc,
   serverTimestamp,
   setDoc,
   getDoc,
-  updateDoc
+  updateDoc,
+  query,
+  where,
+  getDocs
 } from 'firebase/firestore'
 import { useUserStore } from '@/store/userStore'
 import { useRouter } from 'vue-router'
@@ -61,6 +64,12 @@ export const useAuth = () => {
       setLoaderApp(false)
     }
   }
+
+  const userNameAlreadyExists = async (username: string): Promise<boolean> => {
+    const q = query(usersRef, where('username', '==', username))
+    const docsSnapshot = await getDocs(q)
+    return docsSnapshot.docs.length > 0
+  }
   const registerUser = async () => {
     resetAuthError()
     setLoaderApp(true)
@@ -71,29 +80,34 @@ export const useAuth = () => {
       registerForm.confirm_password
     ) {
       if (registerForm.password === registerForm.confirm_password) {
-        createUserWithEmailAndPassword(
-          auth,
-          registerForm.email,
-          registerForm.password
-        )
-          .then(async (userCredential) => {
-            // Add User to Firestore & to the store
-            const userRef = doc(db, 'users', userCredential.user.uid)
-            const userData = {
-              id: userCredential.user.uid,
-              email: registerForm.email,
-              username: registerForm.username,
-              created_at: serverTimestamp(),
-              updated_at: null
-            }
-            await setDoc(userRef, userData)
-            userStore.setUser(userData)
-            await router.push('/')
-          })
-          .catch(() => {
-            errorForm.value = `L'adresse e-mail est déjà utilisée`
-          })
-          .finally(() => setLoaderApp(false))
+        if (!(await userNameAlreadyExists(registerForm.username))) {
+          createUserWithEmailAndPassword(
+            auth,
+            registerForm.email,
+            registerForm.password
+          )
+            .then(async (userCredential) => {
+              // Add User to Firestore & to the store
+              const userRef = doc(db, 'users', userCredential.user.uid)
+              const userData = {
+                id: userCredential.user.uid,
+                email: registerForm.email,
+                username: registerForm.username,
+                created_at: serverTimestamp(),
+                updated_at: null
+              }
+              await setDoc(userRef, userData)
+              userStore.setUser(userData)
+              await router.push('/')
+            })
+            .catch(() => {
+              errorForm.value = `L'adresse e-mail est déjà utilisée`
+            })
+            .finally(() => setLoaderApp(false))
+        } else {
+          errorForm.value = `Le nom d'utilisateur existe déjà`
+          setLoaderApp(false)
+        }
       } else {
         errorForm.value = 'Les deux mots de passe ne correspondent pas'
         setLoaderApp(false)
@@ -119,18 +133,23 @@ export const useAuth = () => {
   const updateUser = async () => {
     setLoaderApp(true)
     const userRef = doc(db, 'users', userStore.user?.id || '')
-    updateDoc(userRef, {
-      ...profileForm,
-      updated_at: serverTimestamp()
-    })
-      .then(() => {
-        userStore.setUser({
-          ...userStore.user,
-          username: profileForm.username
-        } as User)
-        ToastesService.getInstance().success('Profil mis à jour !')
+    if (!(await userNameAlreadyExists(profileForm.username))) {
+      updateDoc(userRef, {
+        ...profileForm,
+        updated_at: serverTimestamp()
       })
-      .finally(() => setLoaderApp(false))
+        .then(() => {
+          userStore.setUser({
+            ...userStore.user,
+            username: profileForm.username
+          } as User)
+          ToastesService.getInstance().success('Profil mis à jour !')
+        })
+        .finally(() => setLoaderApp(false))
+    } else {
+      setLoaderApp(false)
+      ToastesService.getInstance().error(`Le nom d'utilisateur existe déjà`)
+    }
   }
 
   const resetAuthError = () => {

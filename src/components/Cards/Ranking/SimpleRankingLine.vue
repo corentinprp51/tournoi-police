@@ -5,7 +5,7 @@
     <div class="flex gap-[7px] text-[14px]">
       <span>{{ index + 1 }}</span>
       <span>-</span>
-      <span>{{ rankingTeam.teamName }}</span>
+      <span>{{ rankingTeam.teamName ? rankingTeam.teamName : '/' }}</span>
     </div>
     <div class="flex w-[30%] justify-between text-[14px]">
       <span class="font-light text-[#989898]">{{ rankingTeam.played }}</span>

@@ -44,7 +44,7 @@
             ></path>
           </svg>
           <h3 class="mb-5 text-lg font-normal">
-            Voulez-vous vraiment vous déconnecter ?
+            Voulez-vous vraiment supprimer ce pari ?
           </h3>
           <button
             type="button"
