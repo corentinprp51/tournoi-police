@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { useRoute, useRouter } from 'vue-router'
 import ToastesService from '@/services/ToastesService'
@@ -74,7 +74,11 @@ const handleAddBet = async () => {
     errorForm.value = `La date et l'heure doivent être saisies`
     return
   }
-  if (bet.endDate !== '' && formDateIsPast.value) {
+  if (
+    bet.status !== BetStatus.ENDED &&
+    bet.endDate !== '' &&
+    formDateIsPast.value
+  ) {
     errorForm.value = `La date ne doit pas être inférieure à la date actuelle`
     return
   }

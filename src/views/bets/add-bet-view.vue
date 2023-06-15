@@ -22,7 +22,7 @@ import { useRouter } from 'vue-router'
 import ToastesService from '@/services/ToastesService'
 import { useUtilsStore } from '@/store/utilsStore'
 import AddBetForm from '@/components/Forms/Forms/AddBetForm.vue'
-import { Bet, BetStatus } from '@/types/Firestore/Bets'
+import { Bet, BetStatus, BetTypes } from '@/types/Firestore/Bets'
 import ErrorAlert from '@/components/Alerts/ErrorAlert.vue'
 import { isFuture } from 'date-fns'
 
@@ -30,7 +30,8 @@ const bet = reactive<Partial<Bet>>({
   endDate: '',
   ask: '',
   endHours: '',
-  status: BetStatus.TO_BET
+  status: BetStatus.TO_BET,
+  type: BetTypes.PLAYERS
 })
 const userStore = useUserStore()
 const utilsStore = useUtilsStore()

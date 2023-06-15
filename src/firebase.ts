@@ -10,6 +10,7 @@ import {
 import { getAuth } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
 import { getMessaging } from 'firebase/messaging'
+import { User } from '@/types/Firestore/User'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -50,4 +51,15 @@ export const getUserVote = async (betId: string, userId: string) => {
   const q = query(betsFinalVotesRef(betId), where('userId', '==', userId))
   const querySnapshot = await getDocs(q)
   return querySnapshot.docs.map((doc) => doc.ref)[0]
+}
+
+export const getAllPlayers = async () => {
+  const querySnapshot = await getDocs(usersRef)
+  return querySnapshot.docs.map(
+    (document) =>
+      ({
+        ...document.data(),
+        id: document.id
+      } as User)
+  )
 }

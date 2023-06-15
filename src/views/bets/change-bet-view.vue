@@ -4,14 +4,24 @@
     @submit.prevent="handleChangeVote"
   >
     <InputWithLabel
+      v-if="betStore.bet?.type === BetTypes.NUMBERS"
       v-model="vote"
-      :label="label"
+      label="Vote"
+      type="number"
+    />
+    <SelectYesOrNot
+      v-else-if="betStore.bet?.type === BetTypes.YESORNOT"
+      v-model="vote"
+    />
+    <SelectPlayers
+      v-else
+      v-model="vote"
     />
     <ButtonGeneric
       class="mt-[15px]"
       type="submit"
     >
-      Modifier
+      {{ label }}
     </ButtonGeneric>
   </form>
 </template>
@@ -28,6 +38,9 @@ import { updateDoc } from 'firebase/firestore'
 import ToastesService from '@/services/ToastesService'
 import { useUtilsStore } from '@/store/utilsStore'
 import { useBets } from '@/composables/useBets'
+import SelectYesOrNot from '@/components/Forms/Inputs/SelectYesOrNot.vue'
+import SelectPlayers from '@/components/Forms/Inputs/SelectPlayers.vue'
+import { BetTypes } from '@/types/Firestore/Bets'
 
 const route = useRoute()
 const router = useRouter()
@@ -57,7 +70,6 @@ const handleChangeVote = async () => {
     route.params.typeId === 'bet'
       ? await getUserBet(betStore.bet?.id || '', userStore.user?.id || '')
       : await getUserVote(betStore.bet?.id || '', userStore.user?.id || '')
-  console.log(userBetRef)
   await updateDoc(userBetRef, {
     vote: vote.value
   })

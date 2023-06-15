@@ -10,6 +10,7 @@ export type Bet = {
   userId?: string
   bets?: Array<Vote>
   votes?: Array<Vote>
+  type: BetTypes
 }
 
 export enum BetStatus {
@@ -27,5 +28,11 @@ export type Vote = {
 export type RankingVotes = {
   username: string
   userId: string
-  votes: number
+  votes: number | string
+}
+
+export enum BetTypes {
+  PLAYERS = 'Joueurs',
+  YESORNOT = 'Oui/Non',
+  NUMBERS = 'Chiffres'
 }

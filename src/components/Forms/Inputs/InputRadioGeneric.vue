@@ -4,6 +4,7 @@
       v-for="radio in radios"
       :key="radio.value"
       class="flex items-center mb-4"
+      @click="modelValue = radio.value"
     >
       <input
         id="default-radio"

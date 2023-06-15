@@ -11,6 +11,9 @@
       />
     </div>
     <div class="mt-[17px]">
+      <TypeRadio v-model="modelValue.type" />
+    </div>
+    <div class="mt-[17px]">
       <ToggleInput v-model="showDate">Ajouter une date de fin</ToggleInput>
     </div>
     <div
@@ -50,6 +53,7 @@ import ToggleInput from '@/components/Forms/Toggle/ToggleInput.vue'
 import { reactive, ref, watch } from 'vue'
 import SelectHours from '@/components/Forms/Inputs/SelectHours.vue'
 import { Hours } from '@/types/Forms/Hours'
+import TypeRadio from '@/components/Forms/Inputs/TypeRadio.vue'
 
 const emit = defineEmits<{
   (e: 'submit'): void

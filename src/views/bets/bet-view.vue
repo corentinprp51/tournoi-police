@@ -57,10 +57,10 @@
       class="fixed bottom-[120px] bg-input-bg w-full p-3 flex flex-col items-center justify-center"
     >
       <div class="flex justify-center gap-[5px]">
-        {{ isBetStatuts ? 'Pari' : 'Vote' }} actuel:
+        {{ isBetStatuts || isEndedStatuts ? 'Pari' : 'Vote' }} actuel:
         <span class="font-semibold">
-          <span :class="voteWon && 'text-green-500'">
-            {{ isBetStatuts ? getMyBet : getMyVote }}
+          <span :class="voteWonClass">
+            {{ isBetStatuts || isEndedStatuts ? getMyBet : getMyVote }}
           </span>
         </span>
       </div>
@@ -75,7 +75,7 @@
           class="w-full"
           @click="handleChangeBet"
         >
-          Modifier mon vote
+          Modifier mon {{ isBetStatuts || isEndedStatuts ? 'pari' : 'vote' }}
         </ButtonGeneric>
       </div>
     </div>
@@ -85,11 +85,11 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from 'vue-router'
 import { computed, onMounted, reactive, ref } from 'vue'
-import { Bet, BetStatus, RankingVotes } from '@/types/Firestore/Bets'
+import { Bet, BetStatus, BetTypes, RankingVotes } from '@/types/Firestore/Bets'
 import { MakeBetForm as MakeBetFormType } from '@/types/Forms/MakeBetForm'
 import { useBets } from '@/composables/useBets'
 import MakeBetForm from '@/components/Forms/Forms/MakeBetForm.vue'
-import { betsFinalVotesRef, betsVotesRef } from '@/firebase'
+import { betsFinalVotesRef, betsVotesRef, getAllPlayers } from '@/firebase'
 import { addDoc } from 'firebase/firestore'
 import ToastesService from '@/services/ToastesService'
 import { useUserStore } from '@/store/userStore'
@@ -97,8 +97,10 @@ import { useUtilsStore } from '@/store/utilsStore'
 import { useBetStore } from '@/store/betStore'
 import RankingBetsCard from '@/components/Cards/Ranking/RankingBetsCard.vue'
 import ButtonGeneric from '@/components/Forms/Buttons/ButtonGeneric.vue'
+import { User } from '@/types/Firestore/User'
 
 const bet = ref<Bet>({} as unknown as Bet)
+const users = ref<Array<User>>([])
 const betStore = useBetStore()
 const betForm = reactive<MakeBetFormType>({
   ask: '',
@@ -113,6 +115,7 @@ const componentIsLoaded = ref(false)
 onMounted(async () => {
   bet.value = await getBet(route.params.betId as string)
   betStore.setBet(bet.value)
+  users.value = await getAllPlayers()
   componentIsLoaded.value = true
   betForm.ask = bet.value.ask
 })
@@ -130,11 +133,13 @@ const getMyVote = computed(
     bet.value.votes?.find((vote) => vote.userId === userStore.user?.id)?.vote
 )
 
-const voteWon = computed(() => {
+const voteWonClass = computed((): string => {
   if (bet.value.status === BetStatus.ENDED) {
     return rankingFinalVotes.value[0].username === getMyBet.value
+      ? 'text-green-500'
+      : 'text-red-500'
   }
-  return false
+  return ''
 })
 
 const hasVote = computed(
@@ -148,33 +153,76 @@ const isVoteStatuts = computed(
 const isEndedStatuts = computed(() => bet.value.status === BetStatus.ENDED)
 
 const rankingBets = computed((): Array<RankingVotes> => {
-  const finalArray: Array<RankingVotes> = []
-  bet.value.bets?.forEach((betEl) => {
-    finalArray.push({
-      username: betEl.username,
-      userId: betEl.userId,
+  let finalArray: Array<RankingVotes> = []
+  if (bet.value.type === BetTypes.PLAYERS) {
+    finalArray = users.value.map((user) => ({
+      username: user.username,
+      userId: user.id,
       votes:
-        bet.value.bets?.filter((el) => betEl.username === el.vote).length || 0
-    })
-  })
-  return finalArray
-    .filter((el) => el.votes > 0)
-    .sort((a, b) => b.votes - a.votes)
+        bet.value.bets?.filter((el) => user.username === el.vote).length || 0
+    }))
+  } else if (bet.value.type === BetTypes.NUMBERS) {
+    finalArray = users.value.map((user) => ({
+      username: user.username,
+      userId: user.id,
+      votes:
+        parseInt(
+          bet.value.bets?.find((bet) => bet.username === user.username)?.vote ||
+            '-999'
+        ) || -999
+    }))
+  } else {
+    finalArray = users.value.map((user) => ({
+      username: user.username,
+      userId: user.id,
+      votes:
+        bet.value.bets?.find((bet) => bet.username === user.username)?.vote ||
+        ''
+    }))
+  }
+
+  return bet.value.type === BetTypes.YESORNOT
+    ? finalArray.filter((el) => el.votes).sort()
+    : finalArray
+        .filter((el) => el.votes > 0)
+        .sort((a, b) => (b.votes as number) - (a.votes as number))
 })
 
 const rankingFinalVotes = computed((): Array<RankingVotes> => {
-  const finalArray: Array<RankingVotes> = []
-  bet.value.votes?.forEach((betEl) => {
-    finalArray.push({
-      username: betEl.username,
-      userId: betEl.userId,
+  let finalArray: Array<RankingVotes> = []
+  if (bet.value.type === BetTypes.PLAYERS) {
+    finalArray = users.value.map((user) => ({
+      username: user.username,
+      userId: user.id,
       votes:
-        bet.value.votes?.filter((el) => betEl.username === el.vote).length || 0
-    })
-  })
-  return finalArray
-    .filter((el) => el.votes > 0)
-    .sort((a, b) => b.votes - a.votes)
+        bet.value.votes?.filter((el) => user.username === el.vote).length ||
+        (0 as number)
+    }))
+  } else if (bet.value.type === BetTypes.NUMBERS) {
+    finalArray = users.value.map((user) => ({
+      username: user.username,
+      userId: user.id,
+      votes:
+        parseInt(
+          bet.value.votes?.find((bet) => bet.username === user.username)
+            ?.vote || '-999'
+        ) || (-999 as number)
+    }))
+  } else {
+    finalArray = users.value.map((user) => ({
+      username: user.username,
+      userId: user.id,
+      votes:
+        bet.value.votes?.find((bet) => bet.username === user.username)?.vote ||
+        ''
+    }))
+  }
+
+  return bet.value.type === BetTypes.YESORNOT
+    ? finalArray.filter((el) => el.votes).sort()
+    : finalArray
+        .filter((el) => el.votes > 0)
+        .sort((a, b) => (b.votes as number) - (a.votes as number))
 })
 
 const handleSubmitBet = async (isVoteStatus = false) => {

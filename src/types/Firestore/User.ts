@@ -6,4 +6,6 @@ export type User = {
   username: string
   id: string
   updated_at: null | string
+  isAdmin: boolean
+  isPlayer: boolean
 }

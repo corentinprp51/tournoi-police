@@ -10,7 +10,13 @@ import {
   updateDoc,
   where
 } from 'firebase/firestore'
-import { betsFinalVotesRef, betsRef, betsVotesRef, db } from '@/firebase'
+import {
+  betsFinalVotesRef,
+  betsRef,
+  betsVotesRef,
+  db,
+  getAllPlayers
+} from '@/firebase'
 import { Bet, BetStatus } from '@/types/Firestore/Bets'
 import { isFuture } from 'date-fns'
 
@@ -101,13 +107,46 @@ export const useBets = () => {
         0,
         0
       )
-      if (!isFuture(date)) {
+      if (bet.status === BetStatus.TO_BET && !isFuture(date)) {
         await updateDoc(ref, {
           status: BetStatus.TO_FINAL_VOTE
         })
         return BetStatus.TO_FINAL_VOTE
+      } else if (bet.status === BetStatus.TO_FINAL_VOTE) {
+        const users = await getAllPlayers()
+        const newStatus =
+          users.length === bet.votes?.length
+            ? BetStatus.ENDED
+            : BetStatus.TO_FINAL_VOTE
+        if (newStatus !== bet.status) {
+          await updateDoc(ref, {
+            status: newStatus
+          })
+        }
       }
       return bet.status
+    } else if (
+      bet.status === BetStatus.TO_BET ||
+      bet.status === BetStatus.TO_FINAL_VOTE
+    ) {
+      const users = await getAllPlayers()
+      let newStatus: BetStatus = bet.status
+      if (bet.status === BetStatus.TO_BET) {
+        newStatus =
+          users.length === bet.bets?.length
+            ? BetStatus.TO_FINAL_VOTE
+            : BetStatus.TO_BET
+      } else {
+        newStatus =
+          users.length === bet.votes?.length
+            ? BetStatus.ENDED
+            : BetStatus.TO_FINAL_VOTE
+      }
+      if (newStatus !== bet.status) {
+        await updateDoc(ref, {
+          status: newStatus
+        })
+      }
     }
     return bet.status
   }
@@ -119,8 +158,22 @@ export const useBets = () => {
     const filteredBets = status === BetStatus.TO_BET ? [] : querySnapshot.docs
     if (status === BetStatus.TO_BET) {
       for (let i = 0; i < querySnapshot.docs.length; i++) {
+        const betsSubRef = betsVotesRef(querySnapshot.docs[i].id)
+        const finalVotesRef = betsFinalVotesRef(querySnapshot.docs[i].id)
+        const subBetsSnapshot = await getDocs(betsSubRef)
+        const subBestVotesSnapshot = await getDocs(finalVotesRef)
+        const subBets = subBetsSnapshot.docs.map((doc) => ({
+          username: doc.data().username,
+          userId: doc.data().userId,
+          vote: doc.data().vote
+        }))
+        const subVotes = subBestVotesSnapshot.docs.map((doc) => ({
+          username: doc.data().username,
+          userId: doc.data().userId,
+          vote: doc.data().vote
+        }))
         const statusDoc = await changeBetStatusIfNeeded(
-          querySnapshot.docs[i].data(),
+          { ...querySnapshot.docs[i].data(), votes: subVotes, bets: subBets },
           querySnapshot.docs[i].ref
         )
         if (statusDoc === status) {
