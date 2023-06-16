@@ -112,12 +112,21 @@ export const useTournoi = () => {
         } as Statistiques)
     )
     setLoaderApp(false)
-    return stats.reduce((prevObject, currObject) => ({
-      goals: prevObject.goals + currObject.goals,
-      assists: prevObject.assists + currObject.assists,
-      goalkeeper: prevObject.goalkeeper + currObject.goalkeeper,
-      nutmeg: prevObject.nutmeg + currObject.nutmeg
-    }))
+    if (stats.length > 0) {
+      return stats.reduce((prevObject, currObject) => ({
+        goals: prevObject.goals + currObject.goals,
+        assists: prevObject.assists + currObject.assists,
+        goalkeeper: prevObject.goalkeeper + currObject.goalkeeper,
+        nutmeg: prevObject.nutmeg + currObject.nutmeg
+      }))
+    } else {
+      return {
+        goals: 0,
+        assists: 0,
+        goalkeeper: 0,
+        nutmeg: 0
+      }
+    }
   }
 
   const getAllDocs = async <T>(collectionName: string): Promise<Array<T>> => {

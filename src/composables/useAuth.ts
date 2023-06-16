@@ -36,7 +36,8 @@ export const useAuth = () => {
     email: '',
     username: '',
     confirm_password: '',
-    password: ''
+    password: '',
+    userType: 'Joueur'
   })
   const profileForm = reactive<ProfileForm>({
     username: userStore.user?.username || ''
@@ -95,7 +96,7 @@ export const useAuth = () => {
                 username: registerForm.username,
                 created_at: serverTimestamp(),
                 isAdmin: false,
-                isPlayer: true,
+                isPlayer: registerForm.userType === 'Joueur',
                 updated_at: null
               }
               await setDoc(userRef, userData)

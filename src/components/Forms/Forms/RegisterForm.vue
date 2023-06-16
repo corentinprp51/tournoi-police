@@ -31,6 +31,9 @@
         type="password"
       />
     </div>
+    <div class="mt-[17px]">
+      <UserTypeRadio v-model="modelValue.userType" />
+    </div>
     <ButtonGeneric class="mt-[32px]">Inscription</ButtonGeneric>
   </form>
   <div class="flex w-full justify-center mt-[26px]">
@@ -46,6 +49,7 @@ import InputWithLabel from '@/components/Forms/Inputs/InputWithLabel.vue'
 import ButtonGeneric from '@/components/Forms/Buttons/ButtonGeneric.vue'
 import AuthLink from '@/components/Text/AuthLink.vue'
 import { RegisterForm } from '@/types/Forms/RegisterForm'
+import UserTypeRadio from '@/components/Forms/Inputs/UserTypeRadio.vue'
 
 const emit = defineEmits<{
   (e: 'submit'): void
