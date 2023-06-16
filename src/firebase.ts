@@ -53,7 +53,7 @@ export const getUserVote = async (betId: string, userId: string) => {
   return querySnapshot.docs.map((doc) => doc.ref)[0]
 }
 
-export const getAllPlayers = async () => {
+export const getAllUsers = async () => {
   const querySnapshot = await getDocs(usersRef)
   return querySnapshot.docs.map(
     (document) =>
@@ -62,4 +62,20 @@ export const getAllPlayers = async () => {
         id: document.id
       } as User)
   )
+}
+export const getAllPlayers = async () => {
+  const querySnapshot = await getDocs(usersRef)
+  return querySnapshot.docs
+    .filter((u) => u.data().isPlayer)
+    .map(
+      (document) =>
+        ({
+          ...document.data(),
+          id: document.id
+        } as User)
+    )
+}
+
+export const getAllBets = async () => {
+  return await getDocs(betsRef)
 }

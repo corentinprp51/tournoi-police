@@ -15,7 +15,7 @@ import {
   betsRef,
   betsVotesRef,
   db,
-  getAllPlayers
+  getAllUsers
 } from '@/firebase'
 import { Bet, BetStatus } from '@/types/Firestore/Bets'
 import { isFuture } from 'date-fns'
@@ -113,7 +113,7 @@ export const useBets = () => {
         })
         return BetStatus.TO_FINAL_VOTE
       } else if (bet.status === BetStatus.TO_FINAL_VOTE) {
-        const users = await getAllPlayers()
+        const users = await getAllUsers()
         const newStatus =
           users.length === bet.votes?.length
             ? BetStatus.ENDED
@@ -129,7 +129,7 @@ export const useBets = () => {
       bet.status === BetStatus.TO_BET ||
       bet.status === BetStatus.TO_FINAL_VOTE
     ) {
-      const users = await getAllPlayers()
+      const users = await getAllUsers()
       let newStatus: BetStatus = bet.status
       if (bet.status === BetStatus.TO_BET) {
         newStatus =

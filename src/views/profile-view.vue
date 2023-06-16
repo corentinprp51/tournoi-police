@@ -4,6 +4,12 @@
       v-model="profileForm"
       @submit="updateUser"
     />
+    <div
+      v-if="userStore.user?.isAdmin"
+      class="mt-[30px]"
+    >
+      <AdminDashboard />
+    </div>
   </div>
   <ModalLogout
     v-if="showModal"
@@ -18,6 +24,7 @@ import { useAuth } from '@/composables/useAuth'
 import ModalLogout from '@/components/Modals/ModalLogout.vue'
 import { computed } from 'vue'
 import { useUserStore } from '@/store/userStore'
+import AdminDashboard from '@/components/Admin/AdminDashboard.vue'
 
 const userStore = useUserStore()
 const showModal = computed(() => userStore.needLogout)

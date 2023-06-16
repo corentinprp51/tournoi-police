@@ -3,10 +3,9 @@ import { Match } from '@/types/Firestore/Match'
 import { useUtilsStore } from '@/store/utilsStore'
 import { addMinutes, isFuture, isPast } from 'date-fns'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { db, statsRef } from '@/firebase'
+import { db, getAllPlayers, statsRef } from '@/firebase'
 import { FirestoreStats, Statistiques } from '@/types/Firestore/Statistiques'
 import { useUserStore } from '@/store/userStore'
-import { User } from '@/types/Firestore/User'
 import { RankingTeam } from '@/types/Firestore/Ranking'
 
 export const useTournoi = () => {
@@ -142,7 +141,7 @@ export const useTournoi = () => {
   const getAllStats = async () => {
     setLoaderApp(true)
     const stats = await getAllDocs<FirestoreStats>('stats')
-    const users = await getAllDocs<User>('users')
+    const users = await getAllPlayers()
     const usersStats: Array<Partial<FirestoreStats>> = []
     users.forEach((user) => {
       const statsUser = stats

@@ -47,7 +47,10 @@
           title="Statistiques"
           :ranking="stats"
         />
-        <div class="w-full flex justify-center">
+        <div
+          v-if="userStore.user?.isPlayer"
+          class="w-full flex justify-center"
+        >
           <ButtonGeneric
             v-if="!hasAlreadyStats"
             class="w-[calc(100%-16px)] mt-[40px]"

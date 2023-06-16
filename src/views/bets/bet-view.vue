@@ -89,7 +89,7 @@ import { Bet, BetStatus, BetTypes, RankingVotes } from '@/types/Firestore/Bets'
 import { MakeBetForm as MakeBetFormType } from '@/types/Forms/MakeBetForm'
 import { useBets } from '@/composables/useBets'
 import MakeBetForm from '@/components/Forms/Forms/MakeBetForm.vue'
-import { betsFinalVotesRef, betsVotesRef, getAllPlayers } from '@/firebase'
+import { betsFinalVotesRef, betsVotesRef, getAllUsers } from '@/firebase'
 import { addDoc } from 'firebase/firestore'
 import ToastesService from '@/services/ToastesService'
 import { useUserStore } from '@/store/userStore'
@@ -115,7 +115,7 @@ const componentIsLoaded = ref(false)
 onMounted(async () => {
   bet.value = await getBet(route.params.betId as string)
   betStore.setBet(bet.value)
-  users.value = await getAllPlayers()
+  users.value = await getAllUsers()
   componentIsLoaded.value = true
   betForm.ask = bet.value.ask
 })

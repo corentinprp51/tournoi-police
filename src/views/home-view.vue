@@ -8,6 +8,7 @@
       :matchs="matchsFdP"
     />
     <StatistiquesCard
+      v-if="userStore.user?.isPlayer"
       title="Statistiques individuelles"
       subtitle="Vos stats individuelles"
       :stats="stats"
@@ -22,8 +23,10 @@ import { onMounted, ref } from 'vue'
 import { Statistiques } from '@/types/Firestore/Statistiques'
 import StatistiquesCard from '@/components/Cards/Matchs/StatistiquesCard.vue'
 import { useTournoi } from '@/composables/useTournoi'
+import { useUserStore } from '@/store/userStore'
 
 const { matchsFdP, getMatchsFdp, getIndividualStats } = useTournoi()
+const userStore = useUserStore()
 
 onMounted(async () => {
   await getMatchsFdp()
