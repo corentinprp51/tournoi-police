@@ -7,6 +7,6 @@ export type Match = {
   startHour: string
   startDate: string
   groupId: number
-  finalMatch: boolean
+  field: number
   matchLabel: string
 }

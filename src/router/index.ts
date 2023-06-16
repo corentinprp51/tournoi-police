@@ -23,16 +23,8 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/matchs/poules',
-    name: 'matchs-poules',
-    component: () => import('@/views/matchs-view.vue'),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/matchs/phase-finale',
-    name: 'matchs-phase-finale',
+    path: '/matchs',
+    name: 'matchs',
     component: () => import('@/views/matchs-view.vue'),
     meta: {
       requiresAuth: true
@@ -63,7 +55,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/classement/:groupId',
+    path: '/classement',
     name: 'classement',
     component: () => import('@/views/ranking-view.vue'),
     meta: {

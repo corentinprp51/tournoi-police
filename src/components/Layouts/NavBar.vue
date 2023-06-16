@@ -14,7 +14,7 @@
         </li>
         <li>
           <router-link
-            :to="'/matchs/poules'"
+            :to="'/matchs'"
             class="flex flex-col items-center justify-center"
           >
             <MatchIcon
@@ -22,6 +22,15 @@
               :class="isMatchActive && 'bg-white'"
             />
             <span class="mt-[2px] text-[12px] font-light">Matchs</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            :to="'/classement'"
+            class="flex flex-col items-center justify-center"
+          >
+            <RankingIcon :active="isRankingActive" />
+            <span class="mt-[2px] text-[12px] font-light">Classement</span>
           </router-link>
         </li>
         <li>
@@ -44,6 +53,7 @@ import MatchIcon from '@/components/Icons/MatchIcon.vue'
 import { useRoute } from 'vue-router'
 import BetIcon from '@/components/Icons/BetIcon.vue'
 import { computed } from 'vue'
+import RankingIcon from '@/components/Icons/RankingIcon.vue'
 
 const route = useRoute()
 const isBetActive = computed(
@@ -52,9 +62,8 @@ const isBetActive = computed(
     route.name === 'paris-termines' ||
     route.name === 'paris-vote-final'
 )
-const isMatchActive = computed(
-  () => route.name === 'matchs-poules' || route.name === 'matchs-phase-finale'
-)
+const isMatchActive = computed(() => route.name === 'matchs')
+const isRankingActive = computed(() => route.name === 'classement')
 </script>
 
 <style scoped></style>

@@ -13,7 +13,10 @@
         <span class="text-[20px] font-normal">
           {{ match.homeScore }} : {{ match.awayScore }}
         </span>
-        <div class="text-[#989898] font-light text-[12px]">
+        <div
+          class="text-[#989898] font-light text-[12px] flex flex-col items-center"
+        >
+          <span>Terrain {{ match.field }}</span>
           <span v-if="matchIsEnded(match)">Fin du match</span>
           <span v-else-if="matchIsPlaying(match)">En cours</span>
           <span v-else>{{ match.startHour }}</span>

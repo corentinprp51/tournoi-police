@@ -7,10 +7,7 @@
     <div
       class="flex justify-end text-[12px] text-[#989898] font-light mr-[11px] mt-[10px]"
     >
-      <div
-        v-if="!isFinalePhase"
-        class="w-[30%] flex justify-between"
-      >
+      <div class="w-[30%] flex justify-between">
         <span>J</span>
         <span>Buts</span>
         <span>Pts</span>
@@ -22,14 +19,14 @@
           v-for="(rankingTeam, index) in ranking"
           :key="index"
         >
-          <div
-            v-if="!isFinalePhase && (index === 0 || index === 2 || index === 4)"
-            class="text-[10px] text-[#989898] font-light pl-[10px] mt-[7px]"
-          >
-            <span v-if="index === 0">DEMI-FINALES</span>
-            <span v-if="index === 2">PLACES 5 à 8</span>
-            <span v-if="index === 4">PLACES 9-10</span>
-          </div>
+          <!--          <div-->
+          <!--            v-if="!isFinalePhase && (index === 0 || index === 2 || index === 4)"-->
+          <!--            class="text-[10px] text-[#989898] font-light pl-[10px] mt-[7px]"-->
+          <!--          >-->
+          <!--            <span v-if="index === 0">DEMI-FINALES</span>-->
+          <!--            <span v-if="index === 2">PLACES 5 à 8</span>-->
+          <!--            <span v-if="index === 4">PLACES 9-10</span>-->
+          <!--          </div>-->
           <SimpleRankingLine
             :ranking-team="rankingTeam"
             :index="index"
@@ -48,8 +45,6 @@ import SimpleRankingLine from '@/components/Cards/Ranking/SimpleRankingLine.vue'
 type RankingCard = {
   title: string
   ranking: Array<RankingTeam>
-
-  isFinalePhase: boolean
 }
 
 defineProps<RankingCard>()
