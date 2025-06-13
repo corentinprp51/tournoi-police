@@ -4,7 +4,7 @@
     class="mt-[36px]"
   >
     <EditBetForm
-      v-model="bet"
+      v-model="bet as any"
       @submit="handleAddBet"
     />
     <ErrorAlert

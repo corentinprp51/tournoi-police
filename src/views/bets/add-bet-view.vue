@@ -1,7 +1,8 @@
 <template>
   <div class="mt-[36px]">
+    <!-- @ts-ignore -->
     <AddBetForm
-      v-model="bet"
+      v-model="bet as any"
       @submit="handleAddBet"
     />
     <ErrorAlert

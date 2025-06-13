@@ -18,7 +18,7 @@
       class="mt-[17px]"
     >
       <InputWithLabel
-        v-model="modelValue.endDate"
+        v-model="modelValue.endDate as string"
         label="Date de fin"
         type="date"
       />

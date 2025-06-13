@@ -1,8 +1,9 @@
 <template>
   <div class="mt-[10px]">
+    <!-- @ts-ignore -->
     <RankingStatsCard
       title="Classement Statistiques individuelles"
-      :ranking="usersStats"
+      :ranking="usersStats as any"
     />
   </div>
 </template>
