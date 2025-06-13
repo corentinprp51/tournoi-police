@@ -124,8 +124,8 @@ const shortedTeamName = (teamName: string) => {
 const isPlayerTeamGame = computed((): boolean => {
   if (match.value.awayName && match.value.homeName) {
     return (
-      match.value.homeName.includes('Fils de') ||
-      match.value.awayName.includes('Fils de')
+      match.value.homeName.toLocaleUpperCase().includes('FILS DE FLIC') ||
+      match.value.awayName.toLocaleUpperCase().includes('FILS DE FLIC')
     )
   }
   return false

@@ -7,12 +7,14 @@
         subtitle="Les matchs disputés sur le terrain 1"
         :matchs="matchsFieldA"
         group-id="0"
+        :final-phase="true"
       />
       <MatchsCard
         class="mt-[32px]"
         title="Terrain 2"
         subtitle="Les matchs disputés sur le terrain 2"
         :matchs="matchsFieldB"
+        :final-phase="true"
         group-id="1"
       />
     </div>

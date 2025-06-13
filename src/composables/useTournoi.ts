@@ -1,12 +1,12 @@
-import { ref } from 'vue'
-import { Match } from '@/types/Firestore/Match'
+import { db, getAllPlayers, statsRef } from '@/firebase'
+import { useUserStore } from '@/store/userStore'
 import { useUtilsStore } from '@/store/utilsStore'
+import { Match } from '@/types/Firestore/Match'
+import { RankingTeam } from '@/types/Firestore/Ranking'
+import { FirestoreStats, Statistiques } from '@/types/Firestore/Statistiques'
 import { addMinutes, isFuture, isPast } from 'date-fns'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { db, getAllPlayers, statsRef } from '@/firebase'
-import { FirestoreStats, Statistiques } from '@/types/Firestore/Statistiques'
-import { useUserStore } from '@/store/userStore'
-import { RankingTeam } from '@/types/Firestore/Ranking'
+import { ref } from 'vue'
 
 export const useTournoi = () => {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL
@@ -24,7 +24,8 @@ export const useTournoi = () => {
       .then((res: Array<Match>) => {
         matchsFdP.value = res.filter(
           (el) =>
-            el.awayName === 'Fils de Flic' || el.homeName === 'Fils de Flic'
+            el.awayName.toLocaleUpperCase() === 'FILS DE FLIC' ||
+            el.homeName.toLocaleUpperCase() === 'FILS DE FLIC'
         )
       })
       .finally(() => setLoaderApp(false))
